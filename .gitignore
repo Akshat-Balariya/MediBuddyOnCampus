@@ -1,1 +1,14 @@
+# Dependencies (run `npm install`)
+node_modules/
+
+# Local secrets
 .env
+
+# Editor and OS files
+.idea/
+.vscode/
+.claude/
+*.log
+.DS_Store
+Thumbs.db
+node_modules/
