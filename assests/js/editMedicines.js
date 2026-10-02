@@ -1,5 +1,29 @@
 let medicines = []; // This will hold the medicine data
 
+// Converts a date from the server into the YYYY-MM-DD format used by <input type="date">.
+// Uses local date parts so the day doesn't shift for timezones ahead of UTC.
+function toDateInputValue(value) {
+    const date = new Date(value);
+    if (!value || isNaN(date.getTime())) return '';
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${date.getFullYear()}-${month}-${day}`;
+}
+
+// Load the current medicines from the server
+function loadMedicines() {
+    apiFetch('/api/medicines')
+        .then(data => {
+            medicines = Array.isArray(data) ? data : [];
+            renderMedicines();
+        })
+        .catch(error => {
+            console.error('Error loading medicines:', error);
+            document.getElementById('medicineTable').innerHTML =
+                '<tr><td colspan="4">Error loading medicines. Please try again later.</td></tr>';
+        });
+}
+
 // Function to render the medicines table
 function renderMedicines() {
     const tableBody = document.getElementById('medicineTable');
@@ -7,16 +31,33 @@ function renderMedicines() {
 
     medicines.forEach((med, index) => {
         const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${med.name}</td>
-            <td>${med.count}</td>
-            <td>${new Date(med.expire).toLocaleDateString('en-GB')}</td>
-            <td>
-                <button onclick="editMedicine(${index})">Edit</button>
-                <button onclick="removeMedicine(${index})">Remove</button>
-            </td>
-        `;
+
+        [med.name, med.count, formatDate(med.expire)].forEach(value => {
+            const td = document.createElement('td');
+            td.textContent = value;
+            tr.appendChild(td);
+        });
+
+        const actions = document.createElement('td');
+        const editButton = document.createElement('button');
+        editButton.textContent = 'Edit';
+        editButton.addEventListener('click', () => editMedicine(index));
+        const removeButton = document.createElement('button');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', () => removeMedicine(index));
+        actions.append(editButton, ' ', removeButton);
+        tr.appendChild(actions);
+
         tableBody.appendChild(tr);
+    });
+}
+
+// Saves a medicine: updates it if it already exists, otherwise adds it
+function saveMedicine(name, count, expire) {
+    const exists = medicines.some(med => med.name === name);
+    return apiFetch(exists ? '/api/update-medicine' : '/api/add-medicine', {
+        method: 'POST',
+        body: JSON.stringify({ name, count, expire })
     });
 }
 
@@ -24,104 +65,76 @@ function renderMedicines() {
 document.getElementById('medicineForm').addEventListener('submit', function(event) {
     event.preventDefault();
 
-    const name = document.getElementById('medicineName').value;
+    const name = document.getElementById('medicineName').value.trim();
     const count = document.getElementById('medicineCount').value;
     const expire = document.getElementById('medicineExpire').value;
 
-    // Add or update medicine
-    const existingIndex = medicines.findIndex(med => med.name === name);
-    if (existingIndex > -1) {
-        // Update existing medicine
-        medicines[existingIndex].count = count;
-        medicines[existingIndex].expire = expire;
-    } else {
-        // Add new medicine
-        medicines.push({ name, count, expire });
-    }
-
-    // Clear form fields
-    document.getElementById('medicineForm').reset();
-    renderMedicines();
+    saveMedicine(name, count, expire)
+        .then(result => {
+            alert(result.message || 'Medicine saved');
+            document.getElementById('medicineForm').reset();
+            loadMedicines();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save medicine: ' + error.message);
+        });
 });
 
 // Function to edit a medicine
 function editMedicine(index) {
     const med = medicines[index];
-    const tableBody = document.getElementById('medicineTable');
-    const row = tableBody.rows[index];
+    const row = document.getElementById('medicineTable').rows[index];
 
-    // Create a dropdown for editing
-    const editDropdown = `
+    // Name is the key used to find the medicine, so it is shown but not editable here
+    row.innerHTML = `
         <td colspan="4">
-            <input type="text" id="editMedicineName" value="${med.name}" required>
-            <input type="number" id="editMedicineCount" value="${med.count}" required>
-            <input type="date" id="editMedicineExpire" value="${med.expire}" required>
-            <button onclick="updateMedicine(${index})">Update</button>
-            <button onclick="removeMedicine(${index})">Remove</button>
+            <strong>${escapeHtml(med.name)}</strong>
+            <input type="number" id="editMedicineCount" value="${escapeHtml(med.count)}" min="0" required>
+            <input type="date" id="editMedicineExpire" value="${toDateInputValue(med.expire)}" required>
+            <button id="updateMedicineBtn">Update</button>
+            <button id="cancelEditBtn">Cancel</button>
         </td>
     `;
 
-    // Replace the current row with the edit dropdown
-    row.innerHTML = editDropdown;
+    document.getElementById('updateMedicineBtn').addEventListener('click', () => updateMedicine(index));
+    document.getElementById('cancelEditBtn').addEventListener('click', renderMedicines);
 }
 
 // Function to remove a medicine
 function removeMedicine(index) {
     const med = medicines[index];
+    if (!confirm(`Remove ${med.name}?`)) return;
 
-    // Remove from the database
-    fetch('http://localhost:5000/api/delete-medicine', {
+    apiFetch('/api/delete-medicine', {
         method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ name: med.name })
     })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            medicines.splice(index, 1); // Remove from the array
-            renderMedicines(); // Re-render the table
-        } else {
-            alert('Failed to remove medicine: ' + result.message);
-        }
-    })
+    .then(() => loadMedicines())
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while removing the medicine');
+        alert('Failed to remove medicine: ' + error.message);
     });
 }
 
 function updateMedicine(index) {
-    const name = document.getElementById('editMedicineName').value;
+    const name = medicines[index].name;
     const count = document.getElementById('editMedicineCount').value;
     const expire = document.getElementById('editMedicineExpire').value;
 
-    // Update the medicines array
-    medicines[index] = { name, count, expire };
-
-    // Update the database
-    fetch('http://localhost:5000/api/update-medicine', {
+    apiFetch('/api/update-medicine', {
         method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify({ name, count, expire })
     })
-    .then(response => response.json())
-    .then(result => {
-        if (result.success) {
-            alert('Medicine updated successfully');
-            renderMedicines(); // Re-render the table
-        } else {
-            alert('Failed to update medicine: ' + result.message);
-        }
+    .then(() => {
+        alert('Medicine updated successfully');
+        loadMedicines();
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while updating the medicine');
+        alert('Failed to update medicine: ' + error.message);
     });
 }
 
-// Initial render
-renderMedicines();
+// Initial load
+loadMedicines();

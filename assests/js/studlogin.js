@@ -12,11 +12,11 @@ document.getElementById('studentLoginForm').addEventListener('submit', async fun
         password: password
     };
 
+    const errorMessageDiv = document.getElementById('error-message');
+
     // Send the data to the Node.js server
     try {
-        console.log("Sending request to /api/student_login");
-
-        const response = await fetch('http://localhost:5000/api/student_login', {
+        const response = await fetch('/api/student_login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -25,26 +25,25 @@ document.getElementById('studentLoginForm').addEventListener('submit', async fun
         });
 
         const data = await response.json();
-        const errorMessageDiv = document.getElementById('error-message');
-        console.log(data)
         if (data.success) {
             // Store registration number and JWT token in localStorage
             localStorage.setItem('reg_no', registrationNo); // Store registration number
             localStorage.setItem('token', data.token); // Store JWT token
+            localStorage.setItem('role', 'student');
+
+            alert("Login successful");
 
             // Redirect to the homepage or any other page
             window.location.href = './homepage';
-
-            alert("Login successful");
         } else {
-            // If login fails, show an error message
-            errorMessageDiv.textContent = 'Invalid Registration Number or Password';
+            // If login fails, show the server's message (e.g. wrong password, too many attempts)
+            errorMessageDiv.textContent = data.message || 'Invalid Registration Number or Password';
             errorMessageDiv.style.color = 'red';
         }
     } catch (error) {
         // Handle any error from the request
         console.error('Error connecting to the server:', error);
-        document.getElementById('error-message').textContent = 'Error connecting to the server';
-        document.getElementById('error-message').style.color = 'red';
+        errorMessageDiv.textContent = 'Error connecting to the server';
+        errorMessageDiv.style.color = 'red';
     }
 });

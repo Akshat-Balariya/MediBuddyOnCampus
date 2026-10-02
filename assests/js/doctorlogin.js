@@ -1,5 +1,5 @@
- // Handle form submission
- document.getElementById('doctorlogin').addEventListener('submit', async function (e) {
+// Handle form submission
+document.getElementById('doctorlogin').addEventListener('submit', async function (e) {
     e.preventDefault();
 
     // Collect form data
@@ -12,30 +12,32 @@
         password: password
     };
 
-    console.log(loginData);
+    const errorMessageDiv = document.getElementById('error-message');
+
     // Send the data to the Node.js server
     try {
-        const response = await fetch('http://localhost:5000/api/doctor_login', {
+        const response = await fetch('/api/doctor_login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(loginData),
         });
-//a
+
         const data = await response.json();
-        const errorMessageDiv = document.getElementById('error-message');
 
         if (data.success) {
+            // Store the JWT so the doctor pages can call protected routes
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('role', 'doctor');
+            localStorage.removeItem('reg_no');
+
             alert("Login successful!");
-            window.location.href='homepagedoc';
-            
-           
-            
+            window.location.href = 'homepagedoc';
         } else {
-            errorMessageDiv.textContent = 'Invalid Employee ID or Password';
+            errorMessageDiv.textContent = data.message || 'Invalid Employee ID or Password';
         }
     } catch (error) {
-        document.getElementById('error-message').textContent = 'Error connecting to the server';;
+        errorMessageDiv.textContent = 'Error connecting to the server';
     }
 });

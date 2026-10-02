@@ -33,25 +33,16 @@
         <div class="slider_area">
             <div class="popup_inner">
                 <h3>Book an <span>Appointment</span></h3>
-                <form action="http://localhost:5000/api/book_appointment" method="post">
+                <form id="appointmentForm">
                     <input type="text"id="text" name="name" placeholder="Your Name" required>
                     <input type="number" id="age"name="age" placeholder="Your Age" required>
                     <input type="number" id="phone" name="phone" placeholder="Phone Number" required>
                     <input type="email" id="email"name="email" placeholder="Email Address" required>
                     <input name="appointment_date" id="appointment_date"placeholder="Appointment Date" class="textbox-n" type="datetime-local" required>
                     <input name="symptoms" id="symptoms"placeholder="Symptoms" type="text" required>
-                    <input name="registerNo" placeholder="" type="text" id="formregno" style="display: none;"/>
                     <button type="submit" id ="subBtn" class="boxed-btn3">Make an Appointment!</button>
                 </form>
-                <script>
-                    document.getElementById("formregno").value = localStorage.reg_no;
-                    if(document.getElementById("text").value != "")
-                {
-                    location.reload()
-                }
 
-                </script>
-                
             </div>
         </div>
     </main>
@@ -68,9 +59,27 @@
             </div>
         </div>
     </footer>
+    <script src="../assests/js/api.js"></script>
     <script>
-        document.getElementById('subBtn').addEventListener('click', function() {
-            window.location.href = "/confirmappointment";
+        // The registration number comes from the login token on the server, so it isn't sent from here
+        const appointmentForm = document.getElementById('appointmentForm');
+        appointmentForm.addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            const submitButton = document.getElementById('subBtn');
+            submitButton.disabled = true;
+
+            try {
+                await apiFetch('/api/book_appointment', {
+                    method: 'POST',
+                    body: JSON.stringify(Object.fromEntries(new FormData(appointmentForm)))
+                });
+                window.location.href = "/confirmappointment";
+            } catch (error) {
+                console.error('Error:', error);
+                alert(`Error: ${error.message || 'Could not book the appointment'}`);
+                submitButton.disabled = false;
+            }
         });
     </script>
 </body>

@@ -16,17 +16,6 @@ document
       'input[name="gender"]:checked'
     )?.value; // Capture gender
 
-    // Debugging logs
-    console.log("Registration No:", registrationNo);
-    console.log("Name:", name);
-    console.log("Gender:", gender);
-    console.log("Password:", password);
-    console.log("Hostel:", hostel);
-    console.log("Room No:", room);
-    console.log("Medical Condition:", medicalCondition);
-    console.log("Blood Group:", bloodGroup);
-    console.log("Contact:", contact);
-
     const errorMessageDiv = document.getElementById("error-message");
 
     // Validate password confirmation
@@ -58,10 +47,7 @@ document
         body: JSON.stringify(registrationData),
       });
     
-      // Log response details for debugging
-      console.log('Response status:', response.status);
       const responseText = await response.text();
-      console.log('Response body:', responseText);
     
       // Try to parse as JSON only if it's actually JSON
       let result;
@@ -77,7 +63,7 @@ document
       }
     
       alert("Registration successful!");
-      window.location.href = '/login';
+      window.location.href = '/studlogin';
     } catch (error) {
       console.error("Error during registration:", error);
       errorMessageDiv.textContent = 
