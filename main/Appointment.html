@@ -3,84 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Layout</title>
-    <link rel="stylesheet" href="../assests/styles/Appointment.css">
+    <title>Book Appointment | VITB Medical Portal</title>
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/Appointment.css">
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div class="logo-img">
-                <a href="./homepage">
-                    <img src="./assests/images/VITLogoEmblem.png" alt="VIT Logo Emblem">
-                </a>
-            </div>
-            <nav class="main-menu">
-                <ul id="navigation">
-                    <li><a href="./homepage">Home</a></li>
-                    <li><a href="./studapmtlst">Medical History</a></li>
-                    <li><a href="./Appointment">Appointment</a></li>
-                    <li><a href="./Ambulance">Request Ambulance</a></li>
-                    <li><a href="./contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="profile">
-                <a href="#"><img src="./assests/icons/image.png" alt="Profile Icon" /></a>
-            </div>
-        </div>
-    </header>
+<body data-role="student">
+    <header data-layout></header>
+    <script src="/assets/js/layout.js"></script>
 
     <main>
         <div class="slider_area">
             <div class="popup_inner">
                 <h3>Book an <span>Appointment</span></h3>
                 <form id="appointmentForm">
-                    <input type="text"id="text" name="name" placeholder="Your Name" required>
-                    <input type="number" id="age"name="age" placeholder="Your Age" required>
-                    <input type="number" id="phone" name="phone" placeholder="Phone Number" required>
-                    <input type="email" id="email"name="email" placeholder="Email Address" required>
-                    <input name="appointment_date" id="appointment_date"placeholder="Appointment Date" class="textbox-n" type="datetime-local" required>
-                    <input name="symptoms" id="symptoms"placeholder="Symptoms" type="text" required>
-                    <button type="submit" id ="subBtn" class="boxed-btn3">Make an Appointment!</button>
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                    <input type="number" id="age" name="age" placeholder="Your Age" min="1" max="120" required>
+                    <input type="tel" id="phone" name="phone" placeholder="Phone Number" required>
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                    <input name="appointment_date" id="appointment_date" placeholder="Appointment Date" class="textbox-n" type="datetime-local" required>
+                    <input name="symptoms" id="symptoms" placeholder="Symptoms" type="text" required>
+                    <button type="submit" id="subBtn" class="boxed-btn3">Make an Appointment!</button>
                 </form>
 
             </div>
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="footer_widget1">
-                <a href="#">
-                    <img  id="footerimg" src="./assests/images/symbol-of-caduceus-removebg-preview.png" alt="Caduceus Symbol">
-                </a>
-                <p>VIT Bhopal University<br>Bhopal-Indore Highway<br>Kothrikalan, Sehore<br>Madhya Pradesh - 466114</p>
-                <br>
-                <p>&copy; 2024 VITB Medical Portal by Group 81</p>
-            </div>
-        </div>
-    </footer>
-    <script src="../assests/js/api.js"></script>
-    <script>
-        // The registration number comes from the login token on the server, so it isn't sent from here
-        const appointmentForm = document.getElementById('appointmentForm');
-        appointmentForm.addEventListener('submit', async function (event) {
-            event.preventDefault();
-
-            const submitButton = document.getElementById('subBtn');
-            submitButton.disabled = true;
-
-            try {
-                await apiFetch('/api/book_appointment', {
-                    method: 'POST',
-                    body: JSON.stringify(Object.fromEntries(new FormData(appointmentForm)))
-                });
-                window.location.href = "/confirmappointment";
-            } catch (error) {
-                console.error('Error:', error);
-                alert(`Error: ${error.message || 'Could not book the appointment'}`);
-                submitButton.disabled = false;
-            }
-        });
-    </script>
+    <footer data-layout></footer>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/Appointment.js"></script>
 </body>
 </html>

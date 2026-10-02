@@ -3,31 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Layout</title>
-    <link rel="stylesheet" href="../assests/styles/studapmtlst.css">
+    <title>Medical History | VITB Medical Portal</title>
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/studapmtlst.css">
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div class="logo-img">
-                <a href="./homepagedoc">
-                    <img src="../assests/images/VITLogoEmblem.png" alt="VIT Logo Emblem">
-                </a>
-            </div>
-            <nav class="main-menu">
-                <ul id="navigation">
-                    <li><a href="./homepage">Home</a></li>
-                    <li><a href="./studapmtlst">Medical History</a></li>
-                    <li><a href="./Appointment">Appointment</a></li>
-                    <li><a href="./Ambulance">Request Ambulance</a></li>                 
-                    <li><a href="./contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="profile">
-                <a href="#"><img src="../assests/icons/image.png" alt="Profile Icon" /></a>
-            </div>
-        </div>
-    </header>
+<body data-role="student">
+    <header data-layout></header>
+    <script src="/assets/js/layout.js"></script>
 
     <main>
         <div class="search-container">
@@ -50,21 +32,10 @@
         </div>
     </main>
      
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="footer_widget1">
-                <a href="#">
-                    <img id="footerimg" src="../assests/images/symbol-of-caduceus-removebg-preview.png" alt="Caduceus Symbol">
-                </a>
-                <p>VIT Bhopal University<br>Bhopal-Indore Highway<br>Kothrikalan, Sehore<br>Madhya Pradesh - 466114</p>
-                <br>
-                <p>&copy; 2024 VITB Medical Portal by Group 81</p>
-            </div>
-        </div>
-    </footer>
+    <footer data-layout></footer>
 
-    <script src="../assests/js/api.js"></script>
-    <script src="../assests/js/studapmtlst.js">
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/studapmtlst.js">
        
     </script>
 </body>

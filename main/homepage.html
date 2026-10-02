@@ -3,35 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Homepage Layout</title>
-    <link rel="stylesheet" href="../assests/styles/homepage.css">
+    <title>Student Home | VITB Medical Portal</title>
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/homepage.css">
     <style>
         
     </style>
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div class="logo-img">
-                <a href="./homepage">
-                    <img src="../assests/images/VITLogoEmblem.png" alt="VIT Logo Emblem">
-                </a>
-            </div>
-            <nav class="main-menu">
-                <ul id="navigation">
-                    <li><a href="./homepage">Home</a></li>
-                    <li><a href="./studapmtlst">Medical History</a></li>
-                    <li><a href="./Appointment">Appointment</a></li>
-                    <li><a href="./Ambulance">Request Ambulance</a></li>                 
-                    <li><a href="./contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="profile">
-                <a href="#"><img src="../assests/icons/image.png" alt="Profile Icon" /></a>
-                
-            </div>
-        </div>
-    </header>
+<body data-role="student">
+    <header data-layout></header>
+    <script src="/assets/js/layout.js"></script>
 
     <main>
         <div class="centered-text">
@@ -40,44 +21,6 @@
         </div>
     </main>
      
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="footer_widget1">
-                <a href="#">
-                    <img id="footerimg" src="../assests/images/symbol-of-caduceus-removebg-preview.png" alt="Caduceus Symbol">
-                </a>
-                <div id="footer_text">
-                    <p>VIT Bhopal University<br>Bhopal-Indore Highway<br>Kothrikalan, Sehore<br>Madhya Pradesh - 466114</p>
-                    <br>
-                    <p>&copy; 2024 VITB Medical Portal by Group 81</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const profileMenu = document.querySelector('.hover-menu');
-        const profileImage = document.querySelector('.profile img');
-
-        // Show menu on hover over profile image
-        profileImage.addEventListener('mouseenter', () => {
-            profileMenu.style.display = 'block';
-        });
-
-        // Keep menu visible when hovering over it
-        profileMenu.addEventListener('mouseenter', () => {
-            profileMenu.style.display = 'block';
-        });
-
-        // Hide menu when clicking outside of it
-        document.addEventListener('click', (event) => {
-            const isClickInsideProfile = profileImage.contains(event.target) || profileMenu.contains(event.target);
-            if (!isClickInsideProfile) {
-                profileMenu.style.display = 'none';
-            }
-        });
-    });
-
-</script>
+    <footer data-layout></footer>
 </body>
 </html>

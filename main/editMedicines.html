@@ -3,27 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Medicines</title>
-    <link rel="stylesheet" href="../assests/styles/Prescriptions.css">
+    <title>Edit Medicines | VITB Medical Portal</title>
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/Prescriptions.css">
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div class="logo-img">
-                <a href="./homepagedoc">
-                    <img src="../assests/images/VITLogoEmblem.png" alt="VIT Logo Emblem">
-                </a>
-            </div>
-            <nav class="main-menu">
-                <ul id="navigation">
-                    <li><a href="./homepagedoc">Home</a></li>
-                    <li><a href="./Prescriptions">Drug Records</a></li>
-                    <li><a href="./editMedicines">Edit Medicines</a></li>
-                    <li><a href="./homepagedoc">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+<body data-role="doctor">
+    <header data-layout></header>
+    <script src="/assets/js/layout.js"></script>
 
     <main>
         <h1>Edit Medicines</h1>
@@ -51,15 +37,9 @@
         </div>
     </main>
 
-    <footer class="footer">
-        <div class="footer_top">
-            <div class="footer_widget1">
-                <p>&copy; 2024 VITB Medical Portal by Group 81</p>
-            </div>
-        </div>
-    </footer>
+    <footer data-layout></footer>
 
-    <script src="../assests/js/api.js"></script>
-    <script src="../assests/js/editMedicines.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/editMedicines.js"></script>
 </body>
 </html>

@@ -1,0 +1,359 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    background-color: #f9f9f9;
+}
+
+/* Header */
+.header-area {
+    background: linear-gradient(90deg, #2e3192 0%, #1b1464 100%);
+    padding: 10px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas: 
+        "logo . profile"
+        "hamburger . .";
+    align-items: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative; /* Add positioning context */
+}
+
+.logo-img {
+    grid-area: logo;
+}
+
+.logo-img img {
+    height: 10vh;
+    padding-left: 3vw;
+}
+
+.profile {
+    grid-area: profile;
+    justify-self: end;
+    position: relative;
+}
+
+.profile img {
+    padding-right: 1vw;
+    height: 9vh;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.profile img:hover {
+    transform: scale(1.1);
+}
+
+.hover-menu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background-color: #2b2593;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    padding: 10px;
+}
+
+.profile:hover .hover-menu,
+.hover-menu:hover {
+    display: block;
+}
+
+.hover-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.hover-menu ul li a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 14px;
+    display: block;
+    padding: 8px 10px;
+    transition: background-color 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.hover-menu ul li a:hover {
+    background-color: #f9b131;
+    color: #fff;
+}
+
+.hamburger {
+    grid-area: hamburger; /* Uses the grid area defined in header-area */
+    display: block;
+    cursor: pointer;
+    font-size: 16px; /* Adjusted for smaller size */
+    color: #fff;
+    
+    padding: 8px 1px; /* Reduced padding */
+    background: #2e3192;
+    border-radius: 5px;
+    text-align: center;
+    margin: 0; /* Remove additional margin */
+
+    /* Adjust placement */
+    align-self: center;
+    justify-self: start; /* Align to the left within the grid */
+
+    /* Hover effect */
+    transition: background-color 0.3s;
+}
+
+.hamburger:hover {
+    background-color: #f9b131;
+}
+
+
+.main-menu {
+    display: none;
+    width: 100%;
+    background-color: #261d84;
+    padding: 10px 0;
+    position: absolute; /* Position absolutely */
+    left: 0;
+    top: 100%; /* Position below the header */
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+.main-menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 0;
+    width: 100%;
+}
+
+.main-menu ul li a {
+    display: block;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border-radius: 50px;
+    text-align: left;
+}
+
+.main-menu ul li a:hover {
+    background-color: #f9b131;
+    color: #fff;
+}
+
+/* Desktop View */
+@media (min-width: 769px) {
+    .header-area {
+        grid-template-areas: 
+            "logo . profile"
+            "logo menu menu";
+        grid-template-columns: auto 1fr auto;
+    }
+
+    .hamburger {
+        display: none;
+    }
+
+    .main-menu {
+        grid-area: menu;
+        display: block !important;
+        background: none;
+        padding: 0;
+        position: static; /* Reset positioning for desktop */
+    }
+
+    .main-menu ul {
+        flex-direction: row;
+        justify-content: center;
+        gap: 30px;
+    }
+
+    .main-menu ul li a {
+        text-align: center;
+    }
+}
+
+/* Rest of the existing CSS remains the same... */
+
+/* Rest of the existing CSS remains the same... */
+/* (Keep the rest of the CSS from the previous file) */
+
+/* Main Section */
+main {
+    background: url('../images/image.png') no-repeat center center/cover;
+    min-height: 600px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.popup_inner {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.centered-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; /* Adjusted height so it doesn’t fill the entire screen */
+    max-height: 600px; /* Limits the max height */
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0); /* Light background with opacity */
+    padding: 30px;
+    padding-bottom: 10vh;
+
+    /*box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow for a box effect */
+    max-width: 650px;
+    width: 100%;
+
+
+}
+
+
+h1 {
+    font-size: 2.5rem;
+    color: #030303;
+    margin-bottom: 10px;
+}
+
+#para_in{
+    color:#000000;
+    font-size:medium;
+    font-weight: bold;
+}
+
+.popup_inner h3 {
+    font-size: 32px;
+    color: #2e3192;
+    margin-bottom: 20px;
+}
+
+.popup_inner h3 span {
+    color: #f9b131;
+}
+
+.popup_inner form {
+    display: grid;
+    gap: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+input:focus {
+    outline: none;
+    border-color: #2e3192;
+}
+
+.boxed-btn3 {
+    background: #f9b131;
+    color: #fff;
+    border: none;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.boxed-btn3:hover {
+    background: #2e3192;
+    color: #fff;
+}
+
+footer {
+    background: #2e3192;
+    color: #fff;
+    padding: 20px 0;
+}
+
+.footer_top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer_widget1 {
+    text-align: center;
+    margin: 0 auto;
+    color:#fff;
+}
+
+#footerimg {
+
+    align-items: center;
+    height: 80px;
+}
+
+.address_text {
+    color: #fff;
+    font-size: 14rem;
+    line-height: 1.6;
+    margin-top: 5vh;
+    text-align: right;
+}
+
+.copy_right {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 0;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-menu ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .footer_top {
+        flex-direction: column;
+        text-align: center;
+    }
+}
+
+
+/* Profile details */
+.profile-card {
+    width: min(480px, calc(100% - 32px));
+    text-align: left;
+}
+
+.profile-card dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 10px 20px;
+}
+
+.profile-card dt {
+    font-weight: bold;
+    color: #2e3192;
+}
+
+.profile-card dd {
+    margin: 0;
+    overflow-wrap: anywhere;
+}

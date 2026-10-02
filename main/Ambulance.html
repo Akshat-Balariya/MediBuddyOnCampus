@@ -3,31 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Request Ambulance</title>
-    <link rel="stylesheet" href="../assests/styles/Ambulance.css">
+    <title>Request Ambulance | VITB Medical Portal</title>
+    <link rel="stylesheet" href="/assets/styles/layout.css">
+    <link rel="stylesheet" href="/assets/styles/Ambulance.css">
 </head>
-<body>
-    <header>
-        <div class="header-area">
-            <div class="logo-img">
-                <a href="../main/homepage">
-                    <img src="../assests/images/VITLogoEmblem.png" alt="VIT Logo Emblem">
-                </a>
-            </div>
-            <nav class="main-menu">
-                <ul id="navigation">
-                    <li><a href="./homepage">Home</a></li>
-                    <li><a href="./studapmtlst">Medical History</a></li>
-                    <li><a href="./Appointment">Appointment</a></li>
-                    <li><a href="./Ambulance">Request Ambulance</a></li>
-                    <li><a href="./contact">Contact</a></li>
-                </ul>
-            </nav>
-            <div class="profile">
-                <a href="#"><img src="../assests/icons/image.png" alt="Profile Icon" /></a>
-            </div>
-        </div>
-    </header>
+<body data-role="student">
+    <header data-layout></header>
+    <script src="/assets/js/layout.js"></script>
 
     <main>
         <div id="ambulance-card">
@@ -46,7 +28,7 @@
                         <option value="Bhopal">Bhopal</option>
                         <option value="other">Other</option>
                     </select>
-                    <textarea name="location" id="locationField" rows="3" placeholder="Enter detailed location" required></textarea>
+                    <textarea name="location" id="locationField" rows="3" maxlength="255" placeholder="Enter detailed location" required></textarea>
                     <p id="charCount">50 characters left</p>
                 </div>
                 <div id="submit-button">
@@ -56,11 +38,9 @@
         </div>
     </main>
 
-    <footer>
-        <p>&copy; 2024 VITB Medical Portal by Group 81</p>
-    </footer>
+    <footer data-layout></footer>
 
-    <script src="../assests/js/api.js"></script>
-    <script src="../assests/js/Ambulance.js"></script>
+    <script src="/assets/js/api.js"></script>
+    <script src="/assets/js/Ambulance.js"></script>
 </body>
 </html>

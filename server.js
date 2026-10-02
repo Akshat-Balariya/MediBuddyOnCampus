@@ -6,11 +6,12 @@ const { pool } = require("./db");
 const { notFound, errorHandler } = require("./middleware/errors");
 
 const app = express();
+app.set("trust proxy", 1);
 const port = Number(process.env.PORT) || 5000;
 
 // Middleware
 app.use(express.json());
-app.use('/assests', express.static(path.join(__dirname, 'assests')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 app.use('/main', express.static(path.join(__dirname, 'main')));
 
 // API routes
@@ -19,6 +20,7 @@ app.use(
   require("./routes/auth"),
   require("./routes/appointments"),
   require("./routes/ambulance"),
+  require("./routes/student"),
   require("./routes/doctor"),
   require("./routes/medicines")
 );
